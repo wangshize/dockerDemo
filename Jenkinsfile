@@ -4,6 +4,15 @@ pipeline {
         GO = 'golang'
     }
     stages {
+        stage('Checking...') {
+            steps {
+                echo "Checking"
+                sh 'java --version'
+                sh 'git --version'
+                sh 'docker version'
+                sh 'mvn -v'
+            }
+        }
         stage('Build...') {
             steps {
                 echo "Building"
