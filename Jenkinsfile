@@ -6,20 +6,22 @@ pipeline {
     stages {
         stage('Build...') {
             steps {
+                echo "Building"
                 sh 'printenv'
                 sh 'echo $GO Build'
             }
+
         }
-//         stage('Test...') {
-//             steps {
-//
-//             }
-//         }
-//         stage('Deploy...') {
-//             steps {
-//
-//             }
-//         }
+        stage('Test...') {
+            steps {
+                echo "Testing"
+            }
+        }
+        stage('Deploy...') {
+            steps {
+                echo "Deploying"
+            }
+        }
     }
 
 }
