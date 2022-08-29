@@ -7,7 +7,7 @@ pipeline {
         stage('Build...') {
             steps {
                 echo "Building"
-                sh 'printenv'
+                sh 'pwd && ls -alh'
                 sh 'echo $GO Build'
             }
 
