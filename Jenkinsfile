@@ -10,14 +10,17 @@ pipeline {
                 sh 'java --version'
                 sh 'git --version'
                 sh 'docker version'
-//                 sh 'mvn -v'
+                sh 'pwd && ls -alh'
             }
         }
         stage('Build...') {
+            agent {
+                docker { image 'maven:3-alpine' }
+            }
             steps {
                 echo "Building"
                 sh 'pwd && ls -alh'
-                sh 'echo $GO Build'
+                sh 'mvn -v'
             }
 
         }
