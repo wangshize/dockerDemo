@@ -19,7 +19,7 @@ pipeline {
                     image 'maven:3-alpine'
                     //相当于jenkins在使用docker启动maven容器的时候，使用docker run -v  /var/jenkins_home/appconfig/maven/.m2:/root/.m2
                     //这样下次maven容器启动后，就可以挂在到主机目录上的本地仓库
-                    arg '-v /var/jenkins_home/appconfig/maven/.m2:/root/.m2'
+                    args '-v /var/jenkins_home/appconfig/maven/.m2:/root/.m2'
                 }
             }
             steps {
