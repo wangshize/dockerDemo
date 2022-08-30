@@ -21,6 +21,7 @@ pipeline {
                 echo "Building"
                 sh 'pwd && ls -alh'
                 sh 'mvn -v'
+                sh 'mvn clean package -Dmaven.test.skip=true'
             }
 
         }
