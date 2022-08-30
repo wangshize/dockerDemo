@@ -5,6 +5,7 @@ pipeline {
     }
     stages {
         stage('Checking...') {
+            agent any
             steps {
                 echo "Checking"
                 sh 'java --version'
