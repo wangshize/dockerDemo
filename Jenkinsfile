@@ -54,6 +54,7 @@ pipeline {
         stage('Deploy...') {
             steps {
                 echo "Deploying"
+                sh 'docker run -d -p 8080:8080 --name=dockerDeomo docker-demo'
             }
         }
     }
