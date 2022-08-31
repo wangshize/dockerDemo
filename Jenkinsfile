@@ -8,6 +8,7 @@ pipeline {
         stage('Checking...') {
             steps {
                 echo "Checking"
+                sh 'printenv'
                 sh 'java --version'
                 sh 'git --version'
                 sh 'docker version'
