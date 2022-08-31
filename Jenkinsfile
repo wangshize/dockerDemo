@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         WS = "${WORKSPACE}"
+        jobName = "${JOB_BASE_NAME}"
     }
     stages {
         stage('Checking...') {
@@ -47,6 +48,7 @@ pipeline {
             steps {
                 echo "Packaging"
                 sh 'pwd && ls -alh'
+                sh 'docker build -t ${jobName} -f -build-arg appname=${jobName} Dockerfile .'
             }
         }
         stage('Deploy...') {
