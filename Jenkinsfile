@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        WS = '$WORKSPACE'
+        WS = "${WORKSPACE}"
     }
     stages {
         stage('Checking...') {
