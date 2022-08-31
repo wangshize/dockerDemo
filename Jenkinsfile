@@ -48,13 +48,14 @@ pipeline {
             steps {
                 echo "Packaging"
                 sh 'pwd && ls -alh'
-                sh 'docker build -t docker-demo -f Dockerfile --build-arg appname=${jobName} .'
+                sh 'docker build -t docker-demo -f Dockerfile .'
             }
         }
         stage('Deploy...') {
             steps {
                 echo "Deploying"
-                sh 'docker run -d -p 8081:8080 --name=dockerDeomo docker-demo'
+                sh 'docker rm -f docker-devops'
+                sh 'docker run -d -p 8081:8080 --name docker-devops docker-demo'
             }
         }
     }
