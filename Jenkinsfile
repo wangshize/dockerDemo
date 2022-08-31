@@ -48,7 +48,7 @@ pipeline {
             steps {
                 echo "Packaging"
                 sh 'pwd && ls -alh'
-                sh 'docker build -t docker-demo -f Dockerfile -build-arg appname=${jobName} .'
+                sh 'docker build -t docker-demo -f Dockerfile --build-arg appname=${jobName} .'
             }
         }
         stage('Deploy...') {
