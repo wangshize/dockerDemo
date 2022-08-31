@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-        GO = 'golang'
-        WS = '${WORKSPACE}'
+        WS = '$WORKSPACE'
     }
     stages {
         stage('Checking...') {
