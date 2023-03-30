@@ -15,7 +15,7 @@ public class DockerDemoApplication {
 
     @RequestMapping("/hello")
     public String hello() {
-        return "Hello Docker v2.0.0";
+        return "Hello Docker v3.0.0";
     }
 
 }
