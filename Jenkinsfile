@@ -38,6 +38,10 @@ pipeline {
         }
         stage('Push镜像到Harbor') {
             steps {
+                sh '''docker login -u ${harbor_username} -p ${harbor_password} ${harbor_addr}
+                    docker tag my_app_pipeline:$tag ${harbor_addr}/repo/my_app_pipeline:$tag
+                    docker push ${harbor_addr}/repo/my_app_pipeline:$tag
+                    '''
                 echo 'Push镜像到Harbor - SUCCESS'
             }
         }
