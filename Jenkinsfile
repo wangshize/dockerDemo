@@ -30,6 +30,9 @@ pipeline {
         }
         stage('Docker制作自定义镜像') {
             steps {
+                sh '''mv target/*.jar .
+                    docker build -t my_app_pipeline:${tag} .
+                    '''
                 echo 'Docker制作自定义镜像 - SUCCESS'
             }
         }
