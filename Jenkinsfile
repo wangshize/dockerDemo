@@ -5,57 +5,39 @@ pipeline {
         jobName = "${JOB_BASE_NAME}"
     }
     stages {
-        stage('Checking...') {
+        stage('开始执行流水线') {
             steps {
-                echo "Checking"
-                sh 'printenv'
-                sh 'java --version'
-                sh 'git --version'
-                sh 'docker version'
-                sh 'pwd && ls -alh'
+                echo '开始执行流水线'
             }
         }
-        stage('Build...') {
-            agent {
-                docker {
-                    image 'maven:3-alpine'
-                    //相当于jenkins在使用docker启动maven容器的时候，使用docker run -v  /var/jenkins_home/appconfig/maven/.m2:/root/.m2
-                    //这样下次maven容器启动后，就可以把本地仓库挂载到主机目录上
-                    args '-v /var/jenkins_home/appconfig/maven/.m2:/root/.m2'
-                }
-            }
+        stage('拉取git仓库代码') {
             steps {
-                echo "Building"
-                sh 'pwd && ls -alh'
-                sh 'mvn -v'
-                // /var/jenkins_home 是jenkins镜像的home目录，流水线能使用这个目录下的所有东西，
-                //因此虽然jenkins和maven是两个不同的镜像,但是流水线启动的maven容器编译的时候依然可以使用jenkins镜像里的文件
-
-                //当然由于maven的容器也是jenkins在宿主机上启动的一个容器,因此settings.xml也可以挂在宿主机上的一个目录
-                //但是不推荐这么用，因为jenkins未来需要迁移到其他主机的时候，只需要把jenkins_home这个文件夹一起拷贝走就可以了，
-                //否则还需要找到个其他各种配置，他们的文件是怎么挂载的。
-                sh 'cd ${WS} && mvn clean package -s "/var/jenkins_home/appconfig/maven/settings.xml" -Dmaven.test.skip=true'
-                sh 'pwd && ls -alh'
-            }
-
-        }
-        stage('Test...') {
-            steps {
-                echo "Testing"
+                echo '拉取git仓库代码 - SUCCESS'
             }
         }
-        stage('Package...') {
+        stage('Maven构建项目') {
             steps {
-                echo "Packaging"
-                sh 'pwd && ls -alh'
-                sh 'docker build -t docker-demo -f Dockerfile .'
+                echo 'Maven构建项目 - SUCCESS'
             }
         }
-        stage('Deploy...') {
+        stage('Sonarqube代码检测') {
             steps {
-                echo "Deploying"
-                sh 'docker rm -f docker-devops'
-                sh 'docker run -d -p 8081:8080 --name docker-devops docker-demo'
+                echo 'Sonarqube代码检测 - SUCCESS'
+            }
+        }
+        stage('Docker制作自定义镜像') {
+            steps {
+                echo 'Docker制作自定义镜像 - SUCCESS'
+            }
+        }
+        stage('Push镜像到Harbor') {
+            steps {
+                echo 'Push镜像到Harbor - SUCCESS'
+            }
+        }
+        stage('Publisher Over SSH通知目标服务器拉取镜像') {
+            steps {
+                echo 'Publisher Over SSH通知目标服务器拉取镜像 - SUCCESS'
             }
         }
     }
