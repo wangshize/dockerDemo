@@ -18,6 +18,7 @@ pipeline {
         }
         stage('Maven构建项目') {
             steps {
+                sh '/var/jenkins_home/maven/bin/mvn clean package -DskipTest'
                 echo 'Maven构建项目 - SUCCESS'
             }
         }
