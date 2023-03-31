@@ -12,6 +12,7 @@ pipeline {
         }
         stage('拉取git仓库代码') {
             steps {
+                checkout scmGit(branches: [[name: '${tag}']], extensions: [], userRemoteConfigs: [[url: 'https://gitee.com/wangshize/dockerDemo.git']])
                 echo '拉取git仓库代码 - SUCCESS'
             }
         }
