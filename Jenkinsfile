@@ -24,7 +24,7 @@ pipeline {
         }
         stage('Sonarqube代码检测') {
             steps {
-                sh '/var/jenkins_home/sonar-scanner/bin/sonar-scanner -Dsonar.sources=./ -Dsonar.projectname=my_app_pipeline -Dsonar.projectKey=my_app_pipeline -Dsonar.login=c414dcb9997cffa18589673efc49e30efc7e3e8f -Dsonar.java.binaries=./target/'
+                sh '/var/jenkins_home/sonar-scanner/bin/sonar-scanner -Dsonar.sources=./ -Dsonar.projectname=my_app_pipeline -Dsonar.projectKey=my_app_pipeline -Dsonar.login=f745db49576b9fc0ac6f271f26bce7a6d9e79f26 -Dsonar.java.binaries=./target/'
                 echo 'Sonarqube代码检测 - SUCCESS'
             }
         }
