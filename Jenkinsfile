@@ -37,13 +37,13 @@ pipeline {
                 echo 'Docker制作自定义镜像 - SUCCESS'
             }
         }
-        stage('Push镜像到Harbor') {
+        stage('Push镜像到Registry') {
             steps {
-                sh '''docker login -u ${harbor_username} -p ${harbor_password} ${harbor_addr}
-                    docker tag my_app_pipeline:$tag ${harbor_addr}/repo/my_app_pipeline:$tag
-                    docker push ${harbor_addr}/repo/my_app_pipeline:$tag
+                sh '''docker login -u ${registry_user} -p ${registry_password} ${registry_addr}
+                    docker tag my_app_pipeline:$tag ${registry_addr}/repo/my_app_pipeline:$tag
+                    docker push ${registry_addr}/repo/my_app_pipeline:$tag
                     '''
-                echo 'Push镜像到Harbor - SUCCESS'
+                echo 'Push镜像到Registry - SUCCESS'
             }
         }
         stage('Publisher Over SSH通知目标服务器拉取镜像') {
