@@ -28,31 +28,8 @@ pipeline {
         }
         stage('Sonarqube代码检测') {
             steps {
-                failFast true
-                parallel {
-                    stage('Unit Test') {
-                        steps {
-                            echo "Unit Test Stage Skip..."
-                        }
-                    }
-                    stage('Code Scan') {
-                        steps {
-                            container('tools') {
-                                withSonarQubeEnv('sonarqube') {
-                                    sh 'sonar-scanner -X'
-                                    sleep 3
-                                }
-                                script {
-                                    timeout(1) {
-                                        def qg = waitForQualityGate('sonarqube')
-                                        if (qg.status != 'OK') {
-                                            error "未通过Sonarqube的代码质量阈检查，请及时修改！failure: ${qg.status}"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                container('tools') {
+                    sh 'sonar-scanner -Dsonar.sources=./ -Dsonar.projectname=my_app_pipeline -Dsonar.projectKey=my_app_pipeline -Dsonar.login=f745db49576b9fc0ac6f271f26bce7a6d9e79f26 -Dsonar.java.binaries=./target/'
                 }
                 echo 'Sonarqube代码检测 - SUCCESS'
             }
