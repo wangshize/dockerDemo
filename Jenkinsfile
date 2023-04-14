@@ -21,15 +21,38 @@ pipeline {
         stage('Maven构建项目') {
             steps {
                 container('tools') {
-                    sh '/var/jenkins_home/maven/bin/mvn clean package -DskipTest'
+                    sh 'mvn clean package -DskipTest'
                 }
                 echo 'Maven构建项目 - SUCCESS'
             }
         }
         stage('Sonarqube代码检测') {
             steps {
-                container('tools') {
-                    sh '/var/jenkins_home/sonar-scanner/bin/sonar-scanner -Dsonar.sources=./ -Dsonar.projectname=my_app_pipeline -Dsonar.projectKey=my_app_pipeline -Dsonar.login=f745db49576b9fc0ac6f271f26bce7a6d9e79f26 -Dsonar.java.binaries=./target/'
+                failFast true
+                parallel {
+                    stage('Unit Test') {
+                        steps {
+                            echo "Unit Test Stage Skip..."
+                        }
+                    }
+                    stage('Code Scan') {
+                        steps {
+                            container('tools') {
+                                withSonarQubeEnv('sonarqube') {
+                                    sh 'sonar-scanner -X'
+                                    sleep 3
+                                }
+                                script {
+                                    timeout(1) {
+                                        def qg = waitForQualityGate('sonarqube')
+                                        if (qg.status != 'OK') {
+                                            error "未通过Sonarqube的代码质量阈检查，请及时修改！failure: ${qg.status}"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 echo 'Sonarqube代码检测 - SUCCESS'
             }
