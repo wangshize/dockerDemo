@@ -1,5 +1,5 @@
 pipeline {
-    
+    agent { label 'jnlp-slave'}
     environment {
         WS = "${WORKSPACE}"
         jobName = "${JOB_BASE_NAME}"
