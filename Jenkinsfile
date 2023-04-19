@@ -78,7 +78,6 @@ pipeline {
         }
         stage('Publisher Over SSH通知目标服务器拉取镜像') {
             steps {
-                sshPublisher(publishers: [sshPublisherDesc(configName: 'test', transfers: [sshTransfer(cleanRemote: false, excludes: '', execCommand: 'deploy.sh ${harbor_addr} repo my_app_pipeline ${tag} 8080', execTimeout: 120000, flatten: false, makeEmptyDirs: false, noDefaultExcludes: false, patternSeparator: '[, ]+', remoteDirectory: '', remoteDirectorySDF: false, removePrefix: '', sourceFiles: '')], usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: false)])
                 echo 'Publisher Over SSH通知目标服务器拉取镜像 - SUCCESS'
             }
         }
