@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Docker制作自定义镜像') {
             steps {
-                container('tools') {
+                container('docker') {
                     sh '''mv target/*.jar .
                     docker ps
                     docker build -t my_app_pipeline:${tag} .
@@ -39,7 +39,7 @@ pipeline {
         }
         stage('Push镜像到Registry') {
             steps {
-                container('tools') {
+                container('docker') {
                     sh '''docker login -u ${registry_user} -p ${registry_password} ${registry_addr}
                     docker tag my_app_pipeline:$tag ${registry_addr}/my_app_pipeline:$tag
                     docker push ${registry_addr}/my_app_pipeline:$tag
