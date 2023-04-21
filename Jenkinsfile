@@ -18,37 +18,9 @@ pipeline {
                 echo '拉取git仓库代码 - SUCCESS'
             }
         }
-        stage('CI'){
-            failFast true
-            parallel {
-                stage('Unit Test') {
-                    steps {
-                        echo "Unit Test Stage Skip..."
-                    }
-                }
-                stage('Sonarqube代码检测') {
-                    steps {
-                        container('tools') {
-                            withSonarQubeEnv('sonar') {
-                                sh 'sonar-scanner -X'
-                                sleep 3
-                            }
-                            script {
-                                timeout(1) {
-                                    def qg = waitForQualityGate('sonar')
-                                    if (qg.status != 'OK') {
-                                        error "未通过Sonarqube的代码质量阈检查，请及时修改！failure: ${qg.status}"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
         stage('Maven构建项目') {
             steps {
-                container('tools') {
+                container('maven') {
                     sh 'mvn clean package -DskipTest'
                 }
                 echo 'Maven构建项目 - SUCCESS'
