@@ -40,8 +40,7 @@ pipeline {
         stage('Push镜像到Registry') {
             steps {
                 container('docker') {
-                    sh '''docker login -u ${registry_user} -p ${registry_password} ${registry_addr}
-                    docker tag my_app_pipeline:$tag ${registry_addr}/my_app_pipeline:$tag
+                    sh '''docker tag my_app_pipeline:$tag ${registry_addr}/my_app_pipeline:$tag
                     docker push ${registry_addr}/my_app_pipeline:$tag
                     '''
                 }
