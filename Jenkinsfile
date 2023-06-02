@@ -10,6 +10,16 @@ pipeline {
                 echo '开始执行流水线'
             }
         }
+        stage('Docker Login') {
+            steps {
+                script {
+                    // 进行 Docker 登录
+                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${registry_addr}"
+                    }
+                }
+            }
+        }
         stage('拉取git仓库代码') {
             steps {
                 container('tools') {
