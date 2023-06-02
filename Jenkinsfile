@@ -10,12 +10,11 @@ pipeline {
                 echo '开始执行流水线'
             }
         }
-        stage('Docker Login') {
+        stage('登录私有仓库') {
             steps {
                 script {
-                    // 进行 Docker 登录
-                    withCredentials([usernamePassword(credentialsId: 'docker-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} ${registry_addr}"
+                    docker.withRegistry('${registry_addr}', 'docker-credentials') {
+                        // 在这里执行需要拉取私有仓库镜像的步骤
                     }
                 }
             }
