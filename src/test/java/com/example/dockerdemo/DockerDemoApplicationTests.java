@@ -8,6 +8,7 @@ class DockerDemoApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("this is unit test");
     }
 
 }
